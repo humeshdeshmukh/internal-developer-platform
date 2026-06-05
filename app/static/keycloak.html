@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in to Aegis Identity - Keycloak</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="kc-login-body">
+  <div class="bg-glow-wrapper">
+    <div class="bg-glow-bubble bubble-1"></div>
+    <div class="bg-glow-bubble bubble-2"></div>
+  </div>
+
+  <div class="kc-login-card glass-panel">
+    <div class="kc-brand-bar">
+      <div class="kc-brand-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <div class="kc-brand-name">KEYCLOAK</div>
+      <div class="kc-brand-tagline">Single Sign-On Gateway</div>
+    </div>
+
+    <div class="kc-login-form-container">
+      <h2 class="kc-login-title" id="loginHeader">Log in to AEGIS-PLATFORM</h2>
+      
+      <div class="kc-error-message" id="errorMessage">Invalid username or password.</div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username or email</label>
+          <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required autocomplete="username">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn kc-btn-login">Sign In</button>
+      </form>
+
+      <div class="kc-footer-links">
+        <a href="#">Forgot Password?</a> &nbsp;•&nbsp; <a href="#">Register</a>
+      </div>
+
+      <div class="kc-demo-accounts">
+        <div class="kc-demo-title">Available Demo Accounts:</div>
+        <div class="kc-demo-list">
+          <div class="kc-demo-item">
+            <span>Username: <strong>admin</strong></span>
+            <span>Password: <strong>admin123</strong></span>
+          </div>
+          <div class="kc-demo-item">
+            <span>Username: <strong>developer</strong></span>
+            <span>Password: <strong>dev123</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Handle redirect loops and OIDC params
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientId = urlParams.get('client_id') || 'backstage-portal';
+    const redirectUri = urlParams.get('redirect_uri') || '/';
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const usernameInput = document.getElementById('username').value;
+      const passwordInput = document.getElementById('password').value;
+      const errorDiv = document.getElementById('errorMessage');
+      
+      errorDiv.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/v1/keycloak/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: usernameInput,
+            password: passwordInput,
+            client_id: clientId
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Store session token and user info
+          localStorage.setItem('kc_token', data.token);
+          localStorage.setItem('kc_username', data.username);
+          localStorage.setItem('kc_name', data.name);
+          localStorage.setItem('kc_email', data.email);
+          localStorage.setItem('kc_roles', JSON.stringify(data.roles));
+          
+          // Redirect to home page
+          window.location.href = '/index.html';
+        } else {
+          errorDiv.innerText = data.message || 'Authentication failed.';
+          errorDiv.style.display = 'block';
+        }
+      } catch (err) {
+        errorDiv.innerText = 'Unable to reach authentication server.';
+        errorDiv.style.display = 'block';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

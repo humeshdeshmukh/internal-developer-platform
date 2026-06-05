@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dev-service
+description: A boilerplate Helm chart for Aegis IDP Developer Services
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

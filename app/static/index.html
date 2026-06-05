@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis Developer Portal - IDP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background Glow Elements -->
+  <div class="bg-glow-wrapper">
+    <div class="bg-glow-bubble bubble-1"></div>
+    <div class="bg-glow-bubble bubble-2"></div>
+    <div class="bg-glow-bubble bubble-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+        <span class="logo-text">Aegis Portal</span>
+      </div>
+
+      <ul class="nav-links">
+        <li>
+          <div class="nav-item active" data-tab="catalog-tab">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+            <span>Software Catalog</span>
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-tab="create-tab">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+            <span>Create (Scaffolder)</span>
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-tab="argocd-tab">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span>ArgoCD GitOps</span>
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-tab="keycloak-tab">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Keycloak IAM</span>
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-tab="docs-tab">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>TechDocs</span>
+          </div>
+        </li>
+        <li>
+          <div class="nav-item" data-tab="portfolio-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+            <span>DevOps Portfolio</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="user-profile-section">
+        <div class="avatar" id="profileAvatar">SA</div>
+        <div class="user-info">
+          <span class="user-name" id="profileName">System Admin</span>
+          <span class="user-role" id="profileRole">Platform Admin</span>
+        </div>
+        <button class="btn-logout" id="btnSidebarLogout" title="Logout session">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-header">
+        <h1 class="header-title" id="currentTabTitle">Internal Developer Platform</h1>
+        <div class="header-actions">
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>Platform ONLINE</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- =================================================================== -->
+        <!-- TAB 1: SOFTWARE CATALOG -->
+        <!-- =================================================================== -->
+        <div class="tab-pane active" id="catalog-tab">
+          <p class="page-description">
+            The Aegis Software Catalog is the single pane of glass for all developer services, databases, Kubernetes namespaces, and pipelines currently provisioned and active in the cluster.
+          </p>
+          
+          <div class="catalog-controls">
+            <input type="text" id="catalogSearch" class="search-input" placeholder="Search by name, description, owner...">
+            <select id="catalogFilter" class="filter-select">
+              <option value="all">All Component Types</option>
+              <option value="service">Services</option>
+              <option value="database">Databases</option>
+              <option value="namespace">Namespaces</option>
+              <option value="pipeline">Pipelines</option>
+            </select>
+          </div>
+
+          <div class="glass-panel catalog-table-container">
+            <table class="catalog-table">
+              <thead>
+                <tr>
+                  <th>Component Name</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                  <th>Technical Details</th>
+                </tr>
+              </thead>
+              <tbody id="catalogTableBody">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 2: CREATE (SCAFFOLDER TEMPLATES) -->
+        <!-- =================================================================== -->
+        <div class="tab-pane" id="create-tab">
+          <p class="page-description">
+            Choose a Software Template to automatically provision secure, standard cloud infrastructure. Aegis runs Terraform provisioning and GitOps pipelines under the hood to ensure compliance.
+          </p>
+
+          <div class="templates-grid">
+            <!-- Service Template -->
+            <div class="template-card glass-panel" onclick="openScaffoldModal('service')">
+              <div class="template-icon icon-purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              </div>
+              <h3 class="template-title">Create Service</h3>
+              <p class="template-description">
+                Scaffold a Python, Go, or Node.js microservice. Automatically builds a boilerplate Helm chart, registers it with ArgoCD, and creates a local GitOps path.
+              </p>
+              <div class="template-footer">
+                <span class="template-tag">Helm + GitOps</span>
+                <span class="btn-scaffold">Use Template <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+              </div>
+            </div>
+
+            <!-- Database Template -->
+            <div class="template-card glass-panel" onclick="openScaffoldModal('database')">
+              <div class="template-icon icon-cyan">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path></svg>
+              </div>
+              <h3 class="template-title">Create Database</h3>
+              <p class="template-description">
+                Provision a persistent datastore (PostgreSQL or Redis cache). Aegis runs Terraform to deploy database workloads, stateful volumes, and secrets securely.
+              </p>
+              <div class="template-footer">
+                <span class="template-tag">Terraform + K8s</span>
+                <span class="btn-scaffold">Use Template <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+              </div>
+            </div>
+
+            <!-- Namespace Template -->
+            <div class="template-card glass-panel" onclick="openScaffoldModal('namespace')">
+              <div class="template-icon icon-green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <h3 class="template-title">Create Namespace</h3>
+              <p class="template-description">
+                Provision a Kubernetes Namespace. Runs Terraform to configure the namespace labels, environments, and apply strict CPU/Memory resource quota limits.
+              </p>
+              <div class="template-footer">
+                <span class="template-tag">Terraform</span>
+                <span class="btn-scaffold">Use Template <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+              </div>
+            </div>
+
+            <!-- Pipeline Template -->
+            <div class="template-card glass-panel" onclick="openScaffoldModal('pipeline')">
+              <div class="template-icon icon-orange">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>
+              </div>
+              <h3 class="template-title">Create Pipeline</h3>
+              <p class="template-description">
+                Generate a CI/CD pipeline template configuration. Writes structured pipeline stage steps (Lint, Test, SonarQube, Trivy, Deploy) in yaml format.
+              </p>
+              <div class="template-footer">
+                <span class="template-tag">CI/CD YAML</span>
+                <span class="btn-scaffold">Use Template <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 3: ARGOCD GITOPS MONITOR -->
+        <!-- =================================================================== -->
+        <div class="tab-pane" id="argocd-tab">
+          <p class="page-description">
+            Monitor real-time GitOps synchronization states from ArgoCD and live pod workloads running inside the local Kubernetes cluster.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+            <!-- Pod Workloads Section -->
+            <div>
+              <h3 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 20px;">Active Workloads (Pods)</h3>
+              <div class="templates-grid" id="k8sPodsGrid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                <!-- Pods loaded via JS -->
+              </div>
+            </div>
+
+            <!-- Git Commit Log -->
+            <div class="glass-panel" style="padding: 24px;">
+              <h3 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                GitOps Commit History
+              </h3>
+              <ul id="gitCommitLog" style="list-style: none; display: flex; flex-direction: column; max-height: 500px; overflow-y: auto;">
+                <!-- Commits loaded via JS -->
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 4: KEYCLOAK IDENTITY AND ACCESS CONTROL -->
+        <!-- =================================================================== -->
+        <div class="tab-pane" id="keycloak-tab">
+          <p class="page-description">
+            Administer Identity Realms, configure registered OpenID Connect (OIDC) client scopes, and manage user identity credentials within the platform access gateway.
+          </p>
+
+          <div class="glass-panel keycloak-panel-layout" style="padding: 24px;">
+            <!-- Keycloak Sidebar -->
+            <div class="keycloak-sub-nav">
+              <div style="color: var(--accent-warning); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Realm Management</div>
+              <select class="keycloak-realm-selector" id="kcRealmsSelect">
+                <!-- Loaded via JS -->
+              </select>
+              
+              <div class="keycloak-sub-item active" data-pane="kcUsersPane">Users List</div>
+              <div class="keycloak-sub-item" data-pane="kcClientsPane">Clients (Applications)</div>
+              <div class="keycloak-sub-item" data-pane="kcScopesPane">Client Scopes & Roles</div>
+            </div>
+
+            <!-- Keycloak Views Content -->
+            <div class="keycloak-content-view">
+              <!-- Users Pane -->
+              <div class="kc-pane" id="kcUsersPane">
+                <h3 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 16px;">Realm Users</h3>
+                <table class="catalog-table" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Full Name</th>
+                      <th>Status</th>
+                      <th>Email Verified</th>
+                    </tr>
+                  </thead>
+                  <tbody id="kcUsersTbody">
+                    <!-- Users loaded via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Clients Pane -->
+              <div class="kc-pane" id="kcClientsPane" style="display: none;">
+                <h3 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 16px;">Registered OpenID Connect Clients</h3>
+                <table class="catalog-table" style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Client ID</th>
+                      <th>Name</th>
+                      <th>Protocol</th>
+                      <th>Status</th>
+                      <th>Root URL</th>
+                    </tr>
+                  </thead>
+                  <tbody id="kcClientsTbody">
+                    <!-- Clients loaded via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Scopes Pane -->
+              <div class="kc-pane" id="kcScopesPane" style="display: none;">
+                <h3 style="font-family: var(--font-title); font-size: 18px; margin-bottom: 16px;">Client Roles and Scopes</h3>
+                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
+                  Configure the global scopes mapped to the <code>backstage-portal</code> client credential. Real-time client roles control permission restrictions inside the IDP.
+                </p>
+                <div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: var(--radius-sm); border: 1px solid var(--panel-border); font-family: var(--font-mono); font-size: 13px;">
+                  <div>- <strong style="color: var(--accent-secondary);">platform-admin</strong>: Write/Create Namespace, DB, Service, Pipeline workloads.</div>
+                  <div style="margin-top: 8px;">- <strong style="color: var(--accent-secondary);">developer</strong>: Read-only Software Catalog access. Limited scaffolder actions.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 5: TECHDOCS SECTION -->
+        <!-- =================================================================== -->
+        <div class="tab-pane" id="docs-tab">
+          <p class="page-description">
+            Read engineering documentation, developer guides, infrastructure standards, and Platform Engineering best practices.
+          </p>
+
+          <div class="glass-panel docs-layout" style="padding: 30px;">
+            <div class="docs-toc">
+              <div class="docs-toc-title">Platform Documentation</div>
+              <a class="docs-toc-link active" data-doc="doc-intro">Introduction to Platform Engineering</a>
+              <a class="docs-toc-link" data-doc="doc-standards">Infrastructure and Security Standards</a>
+              <a class="docs-toc-link" data-doc="doc-devex">Enhancing Developer Experience (DevEx)</a>
+            </div>
+
+            <div class="docs-content">
+              <!-- Doc 1: Introduction -->
+              <article class="docs-article" id="doc-intro">
+                <h1>Platform Engineering: Self-Service Cloud</h1>
+                <p>
+                  Platform Engineering is the discipline of designing and building toolchains and workflows that enable self-service capabilities for software engineering organizations in the cloud era.
+                </p>
+                <div class="docs-callout">
+                  <p>
+                    <strong>Aegis IDP Philosophy:</strong> The goal of Aegis Developer Portal is to reduce cognitive load on developers by providing golden paths (standard templates) instead of locking infrastructure behind manual service tickets.
+                  </p>
+                </div>
+                <h2>Core Architectural Concepts</h2>
+                <p>
+                  By abstracting cloud providers behind unified infrastructure templates, engineers can deploy full-stack applications with their corresponding datastores without needing to master complex Kubernetes manifests or Terraform providers.
+                </p>
+                <ul>
+                  <li><strong>Productivity</strong>: Zero wait time for sandbox and dev environment provisioning.</li>
+                  <li><strong>Security</strong>: Automatically inject security scanning checks (like Trivy, Falco) during builds.</li>
+                  <li><strong>Governance</strong>: Enforce resource quotas and labels dynamically at provision time.</li>
+                </ul>
+              </article>
+
+              <!-- Doc 2: Standards -->
+              <article class="docs-article" id="doc-standards" style="display: none;">
+                <h1>Infrastructure & Security Standards</h1>
+                <p>
+                  All resources generated by Aegis software templates adhere to pre-approved corporate security controls and resource boundaries.
+                </p>
+                <h2>Resource Limits (Quotas)</h2>
+                <p>
+                  To ensure cluster health and budget predictability, namespaces are capped using resource quotas:
+                </p>
+                <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 13px; line-height: 1.5; border: 1px solid var(--panel-border);">
+                  # Default Sandbox Quota limits
+                  cpu_hard_quota: 2 cores
+                  memory_hard_quota: 4Gi
+                  storage_hard_quota: 20Gi
+                </div>
+                <h2>Database Encryption</h2>
+                <p>
+                  Databases created via the database template inject credentials as Kubernetes Secrets which are reference-mapped by stateful workloads, keeping clear-text values out of version control systems.
+                </p>
+              </article>
+
+              <!-- Doc 3: DevEx -->
+              <article class="docs-article" id="doc-devex" style="display: none;">
+                <h1>Developer Experience (DevEx) Best Practices</h1>
+                <p>
+                  Developer Experience centers around how friction-free it is for a developer to write, test, build, and deploy production software.
+                </p>
+                <h2>The Golden Path</h2>
+                <p>
+                  A golden path is a pre-packaged, fully supported method of building and deploying software. By using Aegis templates, you are automatically aligned with:
+                </p>
+                <ul>
+                  <li>Continuous Integration (CI) unit tests.</li>
+                  <li>Secure Docker base images (distroless or alpine).</li>
+                  <li>ArgoCD GitOps synchronization loop (self-healing deployment reconcile).</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 6: DEVOPS PORTFOLIO INFOGRAPHIC -->
+        <!-- =================================================================== -->
+        <div class="tab-pane" id="portfolio-tab">
+          <p class="page-description">
+            Explore the 10-Stage DevOps Career Roadmap. This interactive infographic illustrates the journey from Junior DevOps Engineer to Principal Cloud Platform Architect, showcasing where the Aegis Developer Platform (Project 7) fits into your professional progression.
+          </p>
+
+          <!-- Top-Level Progress Pipeline -->
+          <div class="glass-panel portfolio-progress-bar-container" style="padding: 24px; margin-bottom: 30px;">
+            <h3 style="font-family: var(--font-title); font-size: 16px; margin-bottom: 20px; font-weight: 700; color: var(--text-main);">Roadmap Milestone Tracker</h3>
+            <div class="roadmap-tracker">
+              <div class="tracker-node completed">
+                <div class="tracker-circle">✓</div>
+                <div class="tracker-label">Stage 1: Junior</div>
+                <div class="tracker-sub">Projects 1-2</div>
+              </div>
+              <div class="tracker-line completed"></div>
+              <div class="tracker-node completed">
+                <div class="tracker-circle">✓</div>
+                <div class="tracker-label">Stage 2: Mid-Level</div>
+                <div class="tracker-sub">Projects 3-5</div>
+              </div>
+              <div class="tracker-line completed"></div>
+              <div class="tracker-node active">
+                <div class="tracker-circle">7</div>
+                <div class="tracker-label">Stage 3: Senior</div>
+                <div class="tracker-sub">Projects 6-7 (Active)</div>
+              </div>
+              <div class="tracker-line pending"></div>
+              <div class="tracker-node pending">
+                <div class="tracker-circle">🔒</div>
+                <div class="tracker-label">Stage 4: Staff</div>
+                <div class="tracker-sub">Projects 8-9</div>
+              </div>
+              <div class="tracker-line pending"></div>
+              <div class="tracker-node pending">
+                <div class="tracker-circle">🏆</div>
+                <div class="tracker-label">Stage 5: Principal</div>
+                <div class="tracker-sub">Project 10</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Infographic Main Grid -->
+          <div class="portfolio-infographic-layout">
+            <!-- Left: Interactive Roadmap Timeline -->
+            <div class="portfolio-timeline-column">
+              <div class="timeline-group-header">Stage 1: Junior DevOps (Months 1-2)</div>
+              <div class="timeline-project-card completed" data-project-id="1">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 1 • SCM & CI/CD</div>
+                <h4 class="card-title">Enterprise DevSecOps CI/CD Pipeline</h4>
+              </div>
+              <div class="timeline-project-card completed" data-project-id="2">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 2 • Observability</div>
+                <h4 class="card-title">Production Observability Platform</h4>
+              </div>
+
+              <div class="timeline-group-header" style="margin-top: 24px;">Stage 2: Mid-Level DevOps (Months 3-4)</div>
+              <div class="timeline-project-card completed" data-project-id="3">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 3 • SecOps</div>
+                <h4 class="card-title">Kubernetes Security Operations Center</h4>
+              </div>
+              <div class="timeline-project-card completed" data-project-id="4">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 4 • SRE Automation</div>
+                <h4 class="card-title">Self-Healing Infrastructure Platform</h4>
+              </div>
+              <div class="timeline-project-card completed" data-project-id="5">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 5 • FinOps</div>
+                <h4 class="card-title">FinOps Cost Optimization Platform</h4>
+              </div>
+
+              <div class="timeline-group-header" style="margin-top: 24px;">Stage 3: Senior DevOps / Platform (Months 5-7)</div>
+              <div class="timeline-project-card completed" data-project-id="6">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 6 • GitOps</div>
+                <h4 class="card-title">GitOps Platform Engineering System</h4>
+              </div>
+              <div class="timeline-project-card active-project" data-project-id="7">
+                <span class="card-status-dot pulse"></span>
+                <div class="card-meta" style="color: var(--accent-secondary);">Project 7 • Developer Portal (ACTIVE)</div>
+                <h4 class="card-title">Aegis Internal Developer Platform (IDP)</h4>
+              </div>
+
+              <div class="timeline-group-header" style="margin-top: 24px;">Stage 4: Staff Engineer (Months 8-10)</div>
+              <div class="timeline-project-card locked" data-project-id="8">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 8 • DR & Multi-Cloud</div>
+                <h4 class="card-title">Multi-Cloud Disaster Recovery</h4>
+              </div>
+              <div class="timeline-project-card locked" data-project-id="9">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 9 • AIOps</div>
+                <h4 class="card-title">AIOps Command Center</h4>
+              </div>
+
+              <div class="timeline-group-header" style="margin-top: 24px;">Stage 5: Principal Engineer (Months 11-12)</div>
+              <div class="timeline-project-card flagship-locked" data-project-id="10">
+                <span class="card-status-dot"></span>
+                <div class="card-meta">Project 10 • Flagship Cloud Platform</div>
+                <h4 class="card-title">DevOpsVerse Enterprise Platform</h4>
+              </div>
+            </div>
+
+            <!-- Right: Dynamic Visual Diagram Detail Panel -->
+            <div class="portfolio-detail-column glass-panel" id="projectDetailsPanel">
+              <!-- Dynamically populated by JS, default is Project 7 -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL: SCAFFOLD FORM MODAL -->
+  <!-- =================================================================== -->
+  <div class="modal-overlay" id="scaffoldFormModal">
+    <div class="modal-container glass-panel">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Create Service</h3>
+        <button class="btn-close" id="modalClose">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="scaffoldForm">
+        <div class="modal-body">
+          <div id="dynamicInputs">
+            <!-- Inputs injected dynamically via JS -->
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-primary">Generate Infrastructure</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL: SCAFFOLDER EXECUTION CONSOLE LOGGER -->
+  <!-- =================================================================== -->
+  <div class="modal-overlay" id="consoleModal">
+    <div class="modal-container glass-panel console-modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="consoleModalTitle">Running Scaffolder Engine</h3>
+        <button class="btn-close" id="consoleClose">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Step Check List -->
+        <div class="execution-steps-tracker" id="stepsTracker">
+          <!-- Step items rendered by JS -->
+        </div>
+
+        <!-- Scrollable Output Log Terminal -->
+        <div class="terminal-console" id="terminalOutput">
+          Connecting to execution pipeline logs...
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" id="btnFinishConsole" disabled>Close Execution Log</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
